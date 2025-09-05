@@ -1,0 +1,69 @@
+<dialog id="create_user_modal" class="modal-medio user-modal">
+  <div class="modal-header mb-3">
+    <h5 class="modal-title text-primary fw-bold">Cadastro do Usuário</h5>
+  </div>
+
+  <form [formGroup]="userFormGroup" (ngSubmit)="insertUser()">
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <label class="form-label"><b>Nome:</b></label>
+        <input type="text" class="form-control form-control-sm" formControlName="fullName" maxlength="80">
+        <div *ngIf="userFormGroup.get('fullName')?.invalid && userFormGroup.get('fullName')?.touched">
+          <small class="text-danger">Nome é obrigatório (máx. 80 caracteres).</small>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label"><b>E-mail:</b></label>
+        <input type="email" class="form-control form-control-sm" formControlName="email" maxlength="100">
+        <div *ngIf="userFormGroup.get('email')?.invalid && userFormGroup.get('email')?.touched">
+          <small class="text-danger">E-mail obrigatório (máx. 100 caracteres).</small>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label"><b>Senha:</b></label>
+        <input type="password" class="form-control form-control-sm" formControlName="password" maxlength="8">
+        <div *ngIf="userFormGroup.get('password')?.invalid && userFormGroup.get('password')?.touched">
+          <small class="text-danger">Senha inválida.</small>
+          <ul class="text-danger small mb-0 ps-3" *ngIf="userFormGroup.get('password')?.errors?.['passwordPolicy']">
+            <li>Uma letra maiúscula</li>
+            <li>Uma letra minúscula</li>
+            <li>Um número</li>
+            <li>Um caractere especial</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label"><b>Sexo:</b></label>
+        <select class="form-select form-select-sm" formControlName="gender">
+          <option value="" disabled selected>Selecione...</option>
+          <option value="F">Feminino</option>
+          <option value="M">Masculino</option>
+        </select>
+        <div *ngIf="userFormGroup.get('gender')?.invalid && userFormGroup.get('gender')?.touched">
+          <small class="text-danger">Sexo é obrigatório.</small>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label"><b>Foto:</b></label><br>
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+        <div *ngIf="userFormGroup.get('photo')?.invalid && userFormGroup.get('photo')?.touched">
+          <small class="text-danger">Foto é obrigatória.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i> Cancelar
+      </button>
+      <button type="submit" class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-save"></i> Salvar
+      </button>
+    </div>
+  </form>
+</dialog>

@@ -1,0 +1,93 @@
+.user-modal .form-label {
+  font-weight: 600;
+  color: #007b83; /* Azul do logo */
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.user-modal .form-control,
+.user-modal .form-select {
+  width: 100%;
+  font-size: 0.9rem;
+  border: 1px solid #b2dfdb;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+/* Cabeçalho */
+.modal-header {
+  border-bottom: 2px solid #4DB6AC; /* Verde claro do logo */
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007b83; /* Azul petróleo do logo */
+}
+
+/* Labels */
+.user-modal .form-label {
+  font-weight: 600;
+  color: #007b83; /* Azul do logo */
+}
+
+/* Inputs */
+.user-modal input,
+.user-modal select {
+  font-size: 0.875rem;
+  border: 1px solid #b2dfdb; /* Verde bem suave */
+  border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-modal input:focus,
+.user-modal select:focus {
+  border-color: #007b83;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 131, 0.25);
+  outline: none;
+}
+
+/* Mensagens de erro */
+.user-modal small,
+.user-modal .text-danger {
+  font-size: 0.75rem;
+  color: #d9534f !important; /* Vermelho elegante */
+}
+
+/* Botões */
+.user-modal .btn {
+  min-width: 110px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.user-modal .btn-outline-primary {
+  color: #007b83;
+  border-color: #007b83;
+}
+
+.user-modal .btn-outline-primary:hover {
+  background-color: #007b83;
+  color: #ffffff;
+}
+
+.user-modal .btn-outline-danger {
+  color: #d9534f;
+  border-color: #d9534f;
+}
+
+.user-modal .btn-outline-danger:hover {
+  background-color: #d9534f;
+  color: #ffffff;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

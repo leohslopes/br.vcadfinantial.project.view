@@ -1,0 +1,51 @@
+<div class="login-wrapper">
+  <div class="login-box shadow">
+    <!-- Logo no topo -->
+    <div class="text-center mb-3">
+      <img src="assets/logo-vcadfinantial.png" alt="VCadFinantial" class="login-logo" />
+    </div>
+
+    <h4 class="text-center mb-4">Acesso ao Sistema</h4>
+
+    <form [formGroup]="loginFormGroup" (ngSubmit)="login()">
+      <div class="form-group mb-3">
+        <label for="email" class="form-label">Usuário:</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control form-control-sm"
+          formControlName="email"
+          placeholder="Digite seu e-mail"
+          required
+        />
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="password" class="form-label">Senha:</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control form-control-sm"
+          formControlName="password"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-outline-primary btn-sm">
+          <i class="bi bi-arrow-bar-right"></i> Login
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-success btn-sm"
+          (click)="openCreateUserModal()"
+        >
+          <i class="bi bi-file-plus"></i> Cadastrar
+        </button>
+      </div>
+    </form>
+
+    <app-registern (onSubmit)="onSubmitCreateUser($event)"></app-registern>
+  </div>
+</div>

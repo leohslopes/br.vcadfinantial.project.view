@@ -1,0 +1,81 @@
+/* Centraliza a caixa de login na tela */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #e6f6f8, #f8fbfc);
+  padding: 1rem;
+}
+
+/* Caixa de login estilizada */
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  border: 1px solid #d1ecf1;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Logo */
+.login-logo {
+  max-width: 160px;
+  margin-bottom: 1rem;
+}
+
+/* Título */
+.login-box h4 {
+  color: #007c91;
+  font-weight: 700;
+}
+
+/* Estilização dos campos */
+.login-box label {
+  font-weight: 600;
+  color: #004d61;
+  float: left;
+}
+
+.login-box .form-control {
+  font-size: 0.9rem;
+  border: 1px solid #b2ebf2;
+  border-radius: 0.5rem;
+}
+
+.login-box .form-control:focus {
+  border-color: #26c6da;
+  box-shadow: 0 0 6px rgba(38, 198, 218, 0.4);
+}
+
+/* Botões */
+.login-box .btn {
+  width: 48%;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Botão Login */
+.login-box .btn-outline-primary {
+  border-color: #007c91;
+  color: #007c91;
+}
+
+.login-box .btn-outline-primary:hover {
+  background-color: #007c91;
+  color: #ffffff;
+}
+
+/* Botão Cadastrar */
+.login-box .btn-outline-success {
+  border-color: #26c6da;
+  color: #26c6da;
+}
+
+.login-box .btn-outline-success:hover {
+  background-color: #26c6da;
+  color: #ffffff;
+}
