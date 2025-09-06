@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Index } from './index';
 import { Protect } from './protect/protect';
 import { AuthGuard } from '../shared/authGuard';
+import { ReportLog } from './report-log/report-log';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'index', pathMatch: 'full' },
       { path: 'index', component: Index },
-      { path: 'protect', component: Protect, canActivate: [AuthGuard] }
+      { path: 'protect', component: Protect, canActivate: [AuthGuard] },
+      { path: 'report', component: ReportLog, canActivate: [AuthGuard] },
     ]
   }
 ];

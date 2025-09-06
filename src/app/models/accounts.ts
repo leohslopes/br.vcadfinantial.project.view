@@ -10,3 +10,7 @@ export interface IResultSetImportArchive {
     resultFileContent: string,
     countRows: number
 }
+
+export interface IDownloadReportLogRequestModel {
+    monthKey: string
+}

@@ -1,0 +1,59 @@
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-left">
+    <span class="logo">VCad Finantial</span>
+  </div>
+  <div class="user-menu">
+    <img [src]="loadImage()" alt="Usuário" class="user-avatar" (click)="toggleMenu()" />
+    <div class="dropdown-menu" [class.show]="menuOpen">
+      <button (click)="openUpdateUserModal()">Perfil</button>
+      <button (click)="logout()">Sair</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- MENU LATERAL -->
+  <aside class="sidebar">
+    <ul>
+      <li><i class="bi bi-speedometer2"></i> Dashboard</li>
+      <li><i class="bi bi-display"></i> Display</li>
+      <li><a class="nav-link active" routerLink="/account/protect" routerLinkActive="active"><i class="bi bi-table"></i>
+          Tabela COSIF</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="container">
+    <div class="panel panel-filter">
+      <h3>Exportar Relatório de LOG</h3>
+
+      <div class="filtro-relatorio">
+        <div class="campo">
+          <label for="mes">Mês:</label>
+          <select [(ngModel)]="monthSelect" id="month" class="form-control">
+            <option [value]="null" disabled selected>Selecione</option>
+            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="ano">Ano:</label>
+          <select [(ngModel)]="yearSelect" id="year" class="form-control">
+            <option [value]="null" disabled selected>Selecione</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+
+        <div class="campo-botao">
+          <button class="btn-exportar" (click)="download()">
+            <i class="bi bi-file-earmark-excel"></i> Exportar Relatório
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-update-user (onSubmit)="onSubmitUpdateUser($event)"></app-update-user>
