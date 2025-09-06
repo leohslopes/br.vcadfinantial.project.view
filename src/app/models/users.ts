@@ -31,3 +31,12 @@ export interface IRegisterUserRequestModel {
   password: string,
   photo: any
 }
+
+export interface IUpdateUserRequestModel {
+  id: number,
+  fullName: string,
+  gender: string,
+  email: string,
+  password: string,
+  photo: any
+}

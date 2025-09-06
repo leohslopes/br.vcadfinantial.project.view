@@ -10,11 +10,13 @@ import * as bootstrap from 'bootstrap';
 import { IDocumentAccountInfoAgreggate, IResultSetImportArchive } from '../../models/accounts';
 import { AccountService } from '../account-service';
 import { IApiResponse, IUser } from '../../models/users';
+import { UserService } from '../user-service';
+import { UpdateUser } from '../update-user/update-user';
 
 
 @Component({
   selector: 'app-protect',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, UpdateUser],
   templateUrl: './protect.html',
   styleUrl: './protect.css'
 })
@@ -35,7 +37,7 @@ export class Protect implements OnInit, OnDestroy {
     private userAuthService: UserAuthService,
     private accountService: AccountService,
     private alertService: AlertService,
-    private formBuilder: FormBuilder) {
+    private userService: UserService) {
 
   }
 
@@ -54,9 +56,9 @@ export class Protect implements OnInit, OnDestroy {
   }
 
   getFilter() {
-    if(this.accountNumber == 0 ) {
-       this.alertService.warning('Favor digitar um número de conta.');
-       return;
+    if (this.accountNumber == 0) {
+      this.alertService.warning('Favor digitar um número de conta.');
+      return;
     }
 
     this.accountService.getByID(this.accountNumber).subscribe({
@@ -77,7 +79,7 @@ export class Protect implements OnInit, OnDestroy {
     });
   }
 
-  clear(){
+  clear() {
     this.accountNumber = 0;
     this.getAll();
   }
@@ -161,7 +163,7 @@ export class Protect implements OnInit, OnDestroy {
   }
 
   handleFileInput(event: Event) {
-   const input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
 
     const file = input.files[0];
@@ -190,7 +192,7 @@ export class Protect implements OnInit, OnDestroy {
         } else {
           const errosObj = value.errors as Record<string, any>;
           const listaDeErros: string[] = Object.values(errosObj).map(err => {
-            
+
             if (Array.isArray(err)) return err.join(', ');
             if (typeof err === 'string') return err;
             return JSON.stringify(err);
@@ -222,5 +224,34 @@ export class Protect implements OnInit, OnDestroy {
 
     return new Blob(byteArrays, { type: contentType });
   }
+
+  openUpdateUserModal() {
+    openModalById('update_user_modal');
+  }
+
+  onSubmitUpdateUser(command: any) {
+    this.userService.update(command.id, command.data).subscribe({
+      next: (value: IApiResponse<any>) => {
+        if (value.success) {
+          this.alertService.success('Usuário atualizado com sucesso.');
+        } else {
+          const errosObj = value.errors as Record<string, any>;
+          const listaDeErros: string[] = Object.values(errosObj).map(err => {
+            if (Array.isArray(err)) return err.join(', ');
+            if (typeof err === 'string') return err;
+            return JSON.stringify(err);
+          });
+
+          const mensagemUnica = listaDeErros.join('; ');
+
+          this.alertService.warning(mensagemUnica);
+        }
+      },
+      error: (err) => {
+        this.alertService.error('Falha ao editar usuário, verifique os dados e tente novamente.');
+      }
+    });
+  }
+
 }
 

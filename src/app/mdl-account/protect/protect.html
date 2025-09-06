@@ -7,61 +7,79 @@
         <img [src]="loadImage()" alt="Usuário" class="user-avatar" (click)="toggleMenu()" />
 
         <div class="dropdown-menu" [class.show]="menuOpen">
-            <button>Atualizar Dados</button>
+            <button (click)="openUpdateUserModal()">Perfil</button>
             <button (click)="logout()">Sair</button>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="layout">
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+        <ul>
+            <li><i class="bi bi-display"></i> Display</li>
+            <li><i class="bi bi-speedometer2"></i> Dashboard</li>
+            <li><i class="bi bi-journal-text"></i> Relatório de Log</li>
+        </ul>
+    </aside>
 
-    <!-- Botão de Importar XML -->
-    <div class="import-button-container">
-        <button class="btn-import" (click)="triggerFileInput()"><i class="bi bi-upload"></i> Importar XML</button>
-        <input type="file" #fileInput accept=".xml" (change)="handleFileInput($event)" style="display: none" />
-    </div>
-    <div class="panel panel-filter">
-        <h3>Filtro</h3>
-        <input type="text" class="form-control" placeholder="Número da Conta..." [(ngModel)]="accountNumber" />
-        <button class="btn-filter" (click)="getFilter()"><i class="bi bi-search"></i> Filtrar</button>
-        <button class="btn-filter" (click)="clear()"><i class="bi bi-brush"></i> Limpar</button>
-    </div>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container">
+        <!-- Botão de Importar XML -->
+        <div class="import-button-container">
+            <button class="btn-import" (click)="triggerFileInput()"><i class="bi bi-upload"></i> Importar XML</button>
+            <input type="file" #fileInput accept=".xml" (change)="handleFileInput($event)" style="display: none" />
+        </div>
 
-    <div class="panel panel-table">
-        <h2>Relatório COSIF</h2>
+        <!-- Filtro -->
+        <div class="panel panel-filter">
+            <h3>Filtro</h3>
+            <input type="text" class="form-control" placeholder="Número da Conta..." [(ngModel)]="accountNumber" />
+            <div class="filter-buttons">
+                <button class="btn-filter" (click)="getFilter()"><i class="bi bi-search"></i> Filtrar</button>
+                <button class="btn-filter" (click)="clear()"><i class="bi bi-brush"></i> Limpar</button>
+            </div>
+        </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Mês/Ano</th>
-                    <th>Arquivo</th>
-                    <th>Número Oficial</th>
-                    <th>Valor</th>
-                    <th>Conta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of paginatedData">
-                    <td>{{ item.mounthKey }}</td>
-                    <td>{{ item.fileName }}</td>
-                    <td>{{ item.officialNumber }}</td>
-                    <td>{{ item.among | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
-                    <td>{{ item.accountKey }}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5" class="table-footer">
-                        Total de registros: {{ data?.length || 0 }}
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+        <!-- Relatório -->
+        <div class="panel panel-table">
+            <h2>Relatório COSIF</h2>
 
-        <div class="pagination">
-            <button [disabled]="currentPage === 1" (click)="goToPreviousPage()">← Anterior</button>
-            <span>Página {{ currentPage }} de {{ pages.length }}</span>
-            <button [disabled]="currentPage === pages.length" (click)="goToNextPage()">Próximo →</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mês/Ano</th>
+                        <th>Arquivo</th>
+                        <th>Número Oficial</th>
+                        <th>Valor</th>
+                        <th>Conta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of paginatedData">
+                        <td>{{ item.mounthKey }}</td>
+                        <td>{{ item.fileName }}</td>
+                        <td>{{ item.officialNumber }}</td>
+                        <td>{{ item.among | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+                        <td>{{ item.accountKey }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="table-footer">
+                            Total de registros: {{ data?.length || 0 }}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="pagination">
+                <button [disabled]="currentPage === 1" (click)="goToPreviousPage()">← Anterior</button>
+                <span>Página {{ currentPage }} de {{ pages.length }}</span>
+                <button [disabled]="currentPage === pages.length" (click)="goToNextPage()">Próximo →</button>
+            </div>
         </div>
     </div>
 </div>
+
+<app-update-user (onSubmit)="onSubmitUpdateUser($event)"></app-update-user>

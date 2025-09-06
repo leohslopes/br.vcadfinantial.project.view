@@ -42,6 +42,42 @@
   color: #004D40;
 }
 
+/* Layout com menu lateral */
+.layout {
+  display: flex;
+  height: calc(100vh - 60px); /* desconta altura do navbar */
+}
+
+/* MENU LATERAL */
+.sidebar {
+  width: 220px;
+  background-color: #006d77; /* Azul petróleo */
+  color: #fff;
+  padding: 1rem;
+  border-right: 2px solid #20b2aa; /* Verde água */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar li:hover {
+  background-color: #20b2aa;
+}
+
 /* Container do avatar e menu */
 .user-menu {
   position: relative;

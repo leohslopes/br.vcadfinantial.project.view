@@ -1,11 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IApiResponse, IRegisterUserRequestModel } from '../../models/users';
+import { IRegisterUserRequestModel } from '../../models/users';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth-service';
-import { AlertService } from '../../alert/alert-service';
-import { closeModalById, cpfValidator, passwordPolicyValidator } from '../../util/modal.util';
-import { UserAuthService } from '../../shared/user-auth-service';
+import { closeModalById, passwordPolicyValidator } from '../../util/modal.util';
 
 const _modalId = 'create_user_modal';
 @Component({
@@ -18,16 +15,16 @@ export class Registern implements OnInit {
 
   @Input() user!: IRegisterUserRequestModel;
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
-  userFormGroup!: FormGroup;
-  previewUrl: string | ArrayBuffer | null = null;
-  selectedFile: File | null = null;
+  public userFormGroup!: FormGroup;
+  public previewUrl: string | ArrayBuffer | null = null;
+  public selectedFile: File | null = null;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private alertService: AlertService, private userAuthService: UserAuthService) {
-    
+  constructor(private formBuilder: FormBuilder) {
+
   }
 
   ngOnInit(): void {
-   this.userFormGroup = this.formBuilder.group({
+    this.userFormGroup = this.formBuilder.group({
       fullName: ['', [Validators.required, Validators.maxLength(80)]],
       gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.maxLength(100)]],
@@ -55,7 +52,7 @@ export class Registern implements OnInit {
       console.warn('photo não é um File válido:', pic);
     }
 
-    this.onSubmit.emit({data: formData });
+    this.onSubmit.emit({ data: formData });
     this.closeModal();
   }
 
@@ -69,14 +66,14 @@ export class Registern implements OnInit {
     if (!input.files?.length) return;
 
     const file = input.files[0];
-   
+
     this.userFormGroup.patchValue({ photo: file });
     this.userFormGroup.get('photo')!.updateValueAndValidity();
   }
 
-  
 
- 
+
+
 
 
 }
