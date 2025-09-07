@@ -173,4 +173,5 @@ export class ReportLog implements OnInit {
 
     return new Blob(byteArrays, { type: contentType });
   }
+
 }

@@ -193,6 +193,13 @@
   background-color: #007B83;
 }
 
+.panel-filter .form-control {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 240px;
+}
+
 /* TABELA */
 table {
   width: 100%;

@@ -1,14 +1,14 @@
-
 /* --- NAVBAR --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
-  background-color: #007B83; /* Cor principal */
+  background-color: #007B83;
+  /* Cor principal */
   color: #fff;
   font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -46,16 +46,19 @@
 /* Layout com menu lateral */
 .layout {
   display: flex;
-  height: calc(100vh - 60px); /* desconta altura do navbar */
+  height: calc(100vh - 60px);
+  /* desconta altura do navbar */
 }
 
 /* MENU LATERAL */
 .sidebar {
   width: 220px;
-  background-color: #006d77; /* Azul petróleo */
+  background-color: #006d77;
+  /* Azul petróleo */
   color: #fff;
   padding: 1rem;
-  border-right: 2px solid #20b2aa; /* Verde água */
+  border-right: 2px solid #20b2aa;
+  /* Verde água */
 }
 
 .sidebar ul {
@@ -90,7 +93,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  cursor: pointer; 
+  cursor: pointer;
   border: 2px solid #fff;
 }
 
@@ -103,8 +106,8 @@
   border: 1px solid #007B83;
   border-radius: 6px;
   min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -134,51 +137,38 @@
   background: #F0F7F6;
 }
 
-.filtro-relatorio {
+.container {
+  margin-left: 200px;
+  padding: 30px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
+
   display: flex;
-  align-items: flex-end;
-  gap: 20px;
+  gap: 40px;
   flex-wrap: wrap;
-  margin-top: 20px;
+  justify-content: flex-start;
 }
 
-.campo {
-  display: flex;
-  flex-direction: column;
+.panel {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  flex: 1 1 45%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  min-width: 300px;
 }
 
-.campo label {
-  font-weight: bold;
-  color: #007B83;
-  margin-bottom: 4px;
+.chart-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
 }
 
-.form-control {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  min-width: 150px;
-}
-
-.btn-exportar {
-  padding: 10px 18px;
-  border-radius: 6px;
-  border: none;
-  background-color: #4DB6AC;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.3s;
-}
-
-.btn-exportar:hover {
-  background-color: #007B83;
-}
-
-.campo-botao {
-  display: flex;
-  align-items: flex-end;
+canvas {
+  display: block;
+  margin: 0 auto;
+  height: 280px !important;
+  max-width: 100%;
 }

@@ -17,10 +17,17 @@
     <!-- MENU LATERAL -->
     <aside class="sidebar">
         <ul>
-            <li><i class="bi bi-speedometer2"></i> Dashboard</li>
+            <li>
+                <a class="nav-link" routerLink="/account/dashboard" routerLinkActive="active">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
             <li><i class="bi bi-display"></i> Display</li>
-            <li><a class="nav-link active" routerLink="/account/report" routerLinkActive="active"><i class="bi bi-journal-text"></i> Relatório de
-                    Log </a></li>
+            <li>
+                <a class="nav-link" routerLink="/account/report" routerLinkActive="active">
+                    <i class="bi bi-journal-text"></i> Relatório de Log
+                </a>
+            </li>
         </ul>
     </aside>
 
@@ -28,21 +35,27 @@
     <div class="container">
         <!-- Botão de Importar XML -->
         <div class="import-button-container">
-            <button class="btn-import" (click)="triggerFileInput()"><i class="bi bi-upload"></i> Importar XML</button>
+            <button class="btn-import" (click)="triggerFileInput()">
+                <i class="bi bi-upload"></i> Importar XML
+            </button>
             <input type="file" #fileInput accept=".xml" (change)="handleFileInput($event)" style="display: none" />
         </div>
 
-        <!-- Filtro -->
+        <!-- PAINEL DE FILTRO -->
         <div class="panel panel-filter">
             <h3>Filtro</h3>
-            <input type="text" class="form-control" placeholder="Número da Conta..." [(ngModel)]="accountNumber" />
-            <div class="filter-buttons">
-                <button class="btn-filter" (click)="getFilter()"><i class="bi bi-search"></i> Filtrar</button>
-                <button class="btn-filter" (click)="clear()"><i class="bi bi-brush"></i> Limpar</button>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" class="form-control" placeholder="Número da Conta..." [(ngModel)]="accountNumber" />
+                <button class="btn-filter" (click)="getFilter()">
+                    <i class="bi bi-search"></i> Filtrar
+                </button>
+                <button class="btn-filter" (click)="clear()">
+                    <i class="bi bi-brush"></i> Limpar
+                </button>
             </div>
         </div>
 
-        <!-- Relatório -->
+        <!-- PAINEL DA TABELA -->
         <div class="panel panel-table">
             <h2>Relatório COSIF</h2>
 
@@ -74,6 +87,7 @@
                 </tfoot>
             </table>
 
+            <!-- PAGINAÇÃO -->
             <div class="pagination">
                 <button [disabled]="currentPage === 1" (click)="goToPreviousPage()">← Anterior</button>
                 <span>Página {{ currentPage }} de {{ pages.length }}</span>
@@ -83,4 +97,5 @@
     </div>
 </div>
 
+<!-- MODAL DE USUÁRIO -->
 <app-update-user (onSubmit)="onSubmitUpdateUser($event)"></app-update-user>
