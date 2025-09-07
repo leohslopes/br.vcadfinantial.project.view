@@ -40,3 +40,7 @@ export interface IUpdateUserRequestModel {
   password: string,
   photo: any
 }
+
+export interface IForgotEmailRequestModel {
+  email: string
+}

@@ -4,14 +4,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../auth-service';
 import { AlertService } from '../../alert/alert-service';
 import { UserAuthService } from '../../shared/user-auth-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { openModalById } from '../../util/modal.util';
 import { Registern } from '../registern/registern';
 import { IApiResponse } from '../../models/users';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, Registern],
+  imports: [CommonModule, ReactiveFormsModule, Registern, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -47,11 +47,11 @@ export class Login {
   }
 
   openCreateUserModal() {
-      openModalById('create_user_modal');
-    }
+    openModalById('create_user_modal');
+  }
 
   onSubmitCreateUser(command: any) {
-      this.authService.register(command.data).subscribe({
+    this.authService.register(command.data).subscribe({
       next: (value: IApiResponse<any>) => {
         if (value.success) {
           this.alertService.success('Usuário criado com sucesso.');
@@ -71,8 +71,8 @@ export class Login {
       error: (err) => {
         this.alertService.error('Falha ao criar usuário, verifique os dados e tente novamente.');
       }
-    })
-    }
+    });
+  }
 
 
 }

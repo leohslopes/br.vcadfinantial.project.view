@@ -32,6 +32,10 @@ export class Protect implements OnInit, OnDestroy {
   public userCurrent?: IUser;
   public menuOpen = false;
   public accountNumber: number = 0;
+  public overwriteMessage: string = '';
+  public overwriteFile!: File;
+  public overwriteFormData!: FormData;
+  public overwriteModal?: bootstrap.Modal;
 
   constructor(
     private userAuthService: UserAuthService,
@@ -189,6 +193,8 @@ export class Protect implements OnInit, OnDestroy {
             this.alertService.warning('Existe(m) crítica(s) na planilha de retorno.');
           }
 
+          this.getAll();
+
         } else {
           const errosObj = value.errors as Record<string, any>;
           const listaDeErros: string[] = Object.values(errosObj).map(err => {
@@ -203,7 +209,19 @@ export class Protect implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        this.alertService.error('Falha ao importar o XML, verifique e tente novamente.');
+        if (err.status === 409) {
+          const errosObj = err?.error?.errors ?? {};
+          const listaDeErros: string[] = Object.values(errosObj).map(err => {
+            if (Array.isArray(err)) return err.join(', ');
+            if (typeof err === 'string') return err;
+            return JSON.stringify(err);
+          });
+
+          const mensagemUnica = listaDeErros.join('; ');
+          this.openOverwriteModal(`${mensagemUnica}\nDeseja sobrescrever o arquivo existente?`, file, formData);
+        } else {
+          this.alertService.error('Falha ao importar o XML, verifique e tente novamente.');
+        }
       }
     });
   }
@@ -253,5 +271,48 @@ export class Protect implements OnInit, OnDestroy {
     });
   }
 
-}
+  openOverwriteModal(message: string, file: File, formData: FormData) {
+    this.overwriteMessage = message;
+    this.overwriteFile = file;
+    this.overwriteFormData = formData;
 
+    const modalElement = document.getElementById('confirmOverwriteModal');
+    if (modalElement) {
+      this.overwriteModal = new bootstrap.Modal(modalElement);
+      this.overwriteModal.show();
+    }
+  }
+
+  closeOverwriteModal() {
+    this.overwriteModal?.hide();
+  }
+
+  confirmOverwrite() {
+    this.accountService.import(this.overwriteFormData, true).subscribe({
+      next: (value) => {
+        this.closeOverwriteModal();
+
+        const base64 = value.data.resultFileContent;
+        const blob = this.base64ToBlob(base64, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'resultado-importacao.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        if (value.data.countRows > 0) {
+          this.alertService.success(`Conta(s) ${value.data.countRows} importada(s) com sucesso.`);
+        } else {
+          this.alertService.warning('Existe(m) crítica(s) na planilha de retorno.');
+        }
+
+        this.getAll();
+      },
+      error: () => {
+        this.closeOverwriteModal();
+        this.alertService.error('Erro ao sobrescrever o arquivo. Tente novamente.');
+      }
+    });
+  }
+}

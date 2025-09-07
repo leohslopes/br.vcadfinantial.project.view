@@ -26,8 +26,8 @@ export class AccountService {
         );
     }
 
-    import(formData: FormData) {
-        return this.httpclient.post<IApiResponse<IResultSetImportArchive>>(`${this.url}/Import`, formData);
+    import(formData: FormData, force: boolean = false) {
+        return this.httpclient.post<IApiResponse<IResultSetImportArchive>>(`${this.url}/Import/${force}`, formData);
     }
 
     getByID(accountKey: number) {

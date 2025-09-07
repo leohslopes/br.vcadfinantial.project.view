@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IApiResponse, ILoginRequestModel, IUserSession } from '../models/users';
+import { IApiResponse, IForgotEmailRequestModel, ILoginRequestModel, IUserSession } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,10 @@ export class AuthService {
 
   register(formData: FormData) {
     return this.httpclient.post<IApiResponse<any>>(`${this.url}/Register`, formData);
+  }
+
+  forgot(command: IForgotEmailRequestModel) {
+    return this.httpclient.post<IApiResponse<string>>(`${this.url}/Forgot`, command);
   }
 
 
