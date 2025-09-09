@@ -44,3 +44,9 @@ export interface IUpdateUserRequestModel {
 export interface IForgotEmailRequestModel {
   email: string
 }
+
+export interface IConfirmCodePasswordRequestModel {
+  email: string,
+  password: string,
+  code: string
+}

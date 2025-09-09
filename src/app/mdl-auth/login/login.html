@@ -20,26 +20,18 @@
           placeholder="Digite sua senha" required />
       </div>
 
-     <div class="d-flex justify-content-between mb-2">
+      <div class="d-flex justify-content-between mb-2">
         <button type="submit" class="btn btn-outline-primary btn-sm">
           <i class="bi bi-arrow-bar-right"></i> Login
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-success btn-sm"
-          (click)="openCreateUserModal()"
-        >
+        <button type="button" class="btn btn-outline-success btn-sm" (click)="openCreateUserModal()">
           <i class="bi bi-file-plus"></i> Cadastrar
         </button>
       </div>
 
       <!-- Link "Esqueci minha senha" abaixo dos botões -->
       <div class="text-center mt-2">
-        <a
-          class="forgot-password-link"
-          routerLink="/auth/recoverPassword" routerLinkActive="active"
-          [queryParams]="{ email: loginFormGroup.get('email')?.value || '' }"
-        >
+        <a class="forgot-password-link" href="javascript:void(0)" (click)="onForgotPassword()">
           Esqueci minha senha
         </a>
       </div>

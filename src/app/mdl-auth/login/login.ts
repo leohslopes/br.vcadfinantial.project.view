@@ -43,7 +43,7 @@ export class Login {
       error: (err) => {
         this.alertService.error('Falha ao autenticar, verifique os dados e tente novamente.');
       }
-    })
+    });
   }
 
   openCreateUserModal() {
@@ -71,6 +71,20 @@ export class Login {
       error: (err) => {
         this.alertService.error('Falha ao criar usuário, verifique os dados e tente novamente.');
       }
+    });
+  }
+
+  onForgotPassword() {
+    const emailControl = this.loginFormGroup.get('email');
+
+    if (!emailControl?.value || emailControl.invalid) {
+      emailControl?.markAsTouched();
+      alert('Por favor, informe um e-mail válido para recuperar sua senha.');
+      return;
+    }
+
+    this.router.navigate(['/auth/recoverPassword'], {
+      queryParams: { email: emailControl.value }
     });
   }
 

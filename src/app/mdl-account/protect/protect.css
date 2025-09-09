@@ -7,39 +7,31 @@
   background-color: #007B83; /* Cor principal */
   color: #fff;
   font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-.navbar .logo {
-  font-size: 18px;
-  letter-spacing: 1px;
+/* Substitui o texto pelo logo */
+.logo-img {
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* mantém branco no fundo verde */
 }
 
-.navbar-right {
+.project-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
 }
 
-.navbar-right .user-avatar {
-  border: 2px solid #fff;
-}
-
-.navbar-right .dropdown-menu {
-  background-color: #fff;
-  border: 1px solid #007B83;
-}
-
-.navbar-right .dropdown-menu button {
-  color: #007B83;
-}
-
-.navbar-right .dropdown-menu button:hover {
-  background-color: #F0F7F6;
-  color: #004D40;
+.project-name::before {
+  content: "⚙️"; /* ou um ícone (ex: do Lucide, FontAwesome ou Material Icons) */
+  font-size: 1.4rem;
 }
 
 /* Layout com menu lateral */
@@ -89,7 +81,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  cursor: pointer; 
+  cursor: pointer;
   border: 2px solid #fff;
 }
 
@@ -102,8 +94,8 @@
   border: 1px solid #007B83;
   border-radius: 6px;
   min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -137,6 +129,8 @@
 .container {
   max-width: 1000px;
   margin: 20px auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* PAINÉIS */
@@ -144,7 +138,7 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .panel-filter {
@@ -153,6 +147,29 @@
 
 .panel-table {
   background-color: #fff;
+  position: relative; /* necessário para conter a marca d’água */
+  overflow: hidden;
+}
+
+/* Marca d’água dentro da tabela */
+.panel-table::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280px; /* ajuste conforme necessário */
+  height: 280px;
+  background: url("/assets/logo-vcadfinantial.png") no-repeat center;
+  background-size: contain;
+  opacity: 0.07; /* transparência */
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* não atrapalha clique nem seleção */
+  z-index: 0;
+}
+
+.panel-table table {
+  position: relative;
+  z-index: 1; /* garante que a tabela fique acima */
 }
 
 /* BOTÃO DE IMPORTAÇÃO */
@@ -209,7 +226,8 @@ table {
   overflow: hidden;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;

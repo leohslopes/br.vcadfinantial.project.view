@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IApiResponse, IForgotEmailRequestModel, ILoginRequestModel, IUserSession } from '../models/users';
+import { IApiResponse, IConfirmCodePasswordRequestModel, IForgotEmailRequestModel, ILoginRequestModel, IUserSession } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,10 @@ export class AuthService {
 
   forgot(command: IForgotEmailRequestModel) {
     return this.httpclient.post<IApiResponse<string>>(`${this.url}/Forgot`, command);
+  }
+
+  confirm(command: IConfirmCodePasswordRequestModel) {
+    return this.httpclient.put<IApiResponse<any>>(`${this.url}/Confirm`, command);
   }
 
 
