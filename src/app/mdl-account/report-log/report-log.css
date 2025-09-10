@@ -14,9 +14,10 @@
   z-index: 1000;
 }
 
-.navbar .logo {
-  font-size: 18px;
-  letter-spacing: 1px;
+.project-logo {
+  height: 80px;      /* ajuste conforme necessário */
+  width: auto;
+  object-fit: contain;
 }
 
 .navbar-right {
