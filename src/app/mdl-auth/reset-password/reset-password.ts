@@ -71,7 +71,7 @@ export class ResetPassword {
           }
         },
         error: (err) => {
-          this.alertService.error('Falha ao atualziar a senha, verifique os dados e tente novamente.');
+          this.alertService.error('Falha ao atualizar a senha, verifique os dados e tente novamente.');
         }
       })
 

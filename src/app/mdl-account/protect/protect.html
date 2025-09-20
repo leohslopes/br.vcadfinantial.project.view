@@ -118,3 +118,23 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de Confirmação de Logout -->
+<div #confirmLogoutModal class="modal fade" id="confirmLogoutModal" tabindex="-1" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content confirm-logout-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmLogoutModalLabel">Confirmação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja excluir o documento vigente atrelado ao usuário logado antes de sair?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn-delete" (click)="confirmLogout(true)">Excluir e Sair</button>
+        <button type="button" class="btn-logout" (click)="confirmLogout(false)">Sair sem excluir</button>
+      </div>
+    </div>
+  </div>
+</div>

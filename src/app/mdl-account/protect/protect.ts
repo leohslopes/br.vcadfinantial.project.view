@@ -7,7 +7,7 @@ import { openModalById } from '../../util/modal.util';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NonNullAssert } from '@angular/compiler';
 import * as bootstrap from 'bootstrap';
-import { IDocumentAccountInfoAgreggate, IResultSetImportArchive } from '../../models/accounts';
+import { IDocumentAccountInfoAgreggate, IGetAllAccountRequestModel, IResultSetImportArchive } from '../../models/accounts';
 import { AccountService } from '../account-service';
 import { IApiResponse, IUser } from '../../models/users';
 import { UserService } from '../user-service';
@@ -20,9 +20,11 @@ import { UpdateUser } from '../update-user/update-user';
   templateUrl: './protect.html',
   styleUrl: './protect.css'
 })
+
 export class Protect implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('confirmLogoutModal', { static: false }) confirmLogoutModal!: ElementRef;
   public data: IDocumentAccountInfoAgreggate[] = [];
   public isLoged: boolean = false;
   public rowsPerPage = 5;
@@ -56,7 +58,11 @@ export class Protect implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.userAuthService.clearToken();
+    const modalElement = document.getElementById('confirmLogoutModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 
   getFilter() {
@@ -65,7 +71,12 @@ export class Protect implements OnInit, OnDestroy {
       return;
     }
 
-    this.accountService.getByID(this.accountNumber).subscribe({
+    var command: IGetAllAccountRequestModel = {
+      accountKey: this.accountNumber,
+      userId: this.userCurrent?.id?.toString() ?? ''
+    }
+
+    this.accountService.getByID(command).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.data = response.data;
@@ -89,7 +100,12 @@ export class Protect implements OnInit, OnDestroy {
   }
 
   private getAll() {
-    this.accountService.get().subscribe({
+    var command: IGetAllAccountRequestModel = {
+      accountKey: 0,
+      userId: this.userCurrent?.id?.toString() ?? ''
+    }
+
+    this.accountService.get(command).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.data = response.data;
@@ -173,6 +189,7 @@ export class Protect implements OnInit, OnDestroy {
     const file = input.files[0];
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('userId', this.userCurrent?.id?.toString() ?? '');
 
     this.accountService.import(formData).subscribe({
       next: (value: IApiResponse<IResultSetImportArchive>) => {
@@ -315,4 +332,43 @@ export class Protect implements OnInit, OnDestroy {
       }
     });
   }
+
+  private inactiveDocument() {
+    var id: any = this.userCurrent?.id;
+
+    this.accountService.delete(id).subscribe({
+      next: (value: IApiResponse<any>) => {
+        if (value.success) {
+          this.alertService.success('Documento excluído com sucesso.');
+        } else {
+          const errosObj = value.errors as Record<string, any>;
+          const listaDeErros: string[] = Object.values(errosObj).map(err => {
+            if (Array.isArray(err)) return err.join(', ');
+            if (typeof err === 'string') return err;
+            return JSON.stringify(err);
+          });
+
+          const mensagemUnica = listaDeErros.join('; ');
+          this.alertService.error(mensagemUnica);
+        }
+      },
+      error: (err) => {
+        this.alertService.error('Falha ao excluir o documento, tente novamente.');
+      }
+    });
+  }
+
+  confirmLogout(deleteDocument: boolean) {
+    if (deleteDocument) {
+      this.inactiveDocument();
+    }
+
+    const modalEl = this.confirmLogoutModal.nativeElement;
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    modalInstance?.hide();
+
+    this.userAuthService.clearToken();
+  }
+
+
 }

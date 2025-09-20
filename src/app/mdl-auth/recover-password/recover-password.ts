@@ -120,7 +120,7 @@ export class RecoverPassword implements OnInit {
         }
       },
       error: (err) => {
-        this.alertService.error('Falha ao criar usuário, verifique os dados e tente novamente.');
+        this.alertService.error('Falha ao enviar e-mail, verifique os dados e tente novamente.');
       }
     });
   }
