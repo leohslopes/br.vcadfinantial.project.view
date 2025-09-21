@@ -12,7 +12,8 @@ export interface IResultSetImportArchive {
 }
 
 export interface IDownloadReportLogRequestModel {
-    monthKey: string
+    monthKey: string,
+    userId: number
 }
 
 export interface IGetAllAccountRequestModel {

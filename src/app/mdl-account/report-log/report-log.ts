@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserAuthService } from '../../shared/user-auth-service';
@@ -11,6 +11,8 @@ import { UpdateUser } from '../update-user/update-user';
 import { CommonModule } from '@angular/common';
 import { ReportService } from './report-service';
 import { IDownloadReportLogRequestModel } from '../../models/accounts';
+import { AccountService } from '../account-service';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-report-log',
@@ -19,6 +21,7 @@ import { IDownloadReportLogRequestModel } from '../../models/accounts';
   styleUrl: './report-log.css'
 })
 export class ReportLog implements OnInit {
+  @ViewChild('confirmLogoutModal', { static: false }) confirmLogoutModal!: ElementRef;
   public years: number[] = [];
   public months: { name: string, value: string }[] = [];
   public yearSelect: number | null = null;
@@ -30,7 +33,8 @@ export class ReportLog implements OnInit {
   constructor(private userAuthService: UserAuthService,
     private alertService: AlertService,
     private userService: UserService,
-    private reportService: ReportService) {
+    private reportService: ReportService,
+    private accountService: AccountService) {
 
   }
 
@@ -64,7 +68,11 @@ export class ReportLog implements OnInit {
   }
 
   logout() {
-    this.userAuthService.clearToken();
+    const modalElement = document.getElementById('confirmLogoutModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 
   toggleMenu() {
@@ -117,13 +125,15 @@ export class ReportLog implements OnInit {
   }
 
   download() {
-    if(this.monthSelect == null && this.yearSelect == null) {
+    if (this.monthSelect == null && this.yearSelect == null) {
       this.alertService.warning('Favor selecionar o mês e o ano para baixar o relatório.');
       return;
     }
 
+    var id: any = this.userCurrent?.id;
     var command: IDownloadReportLogRequestModel = {
-      monthKey: this.yearSelect + '-' + this.monthSelect
+      monthKey: this.yearSelect + '-' + this.monthSelect,
+      userId: id
     };
 
     this.reportService.download(command).subscribe({
@@ -172,6 +182,43 @@ export class ReportLog implements OnInit {
     }
 
     return new Blob(byteArrays, { type: contentType });
+  }
+
+  private inactiveDocument() {
+    var id: any = this.userCurrent?.id;
+
+    this.accountService.delete(id).subscribe({
+      next: (value: IApiResponse<any>) => {
+        if (value.success) {
+          this.alertService.success('Documento excluído com sucesso.');
+        } else {
+          const errosObj = value.errors as Record<string, any>;
+          const listaDeErros: string[] = Object.values(errosObj).map(err => {
+            if (Array.isArray(err)) return err.join(', ');
+            if (typeof err === 'string') return err;
+            return JSON.stringify(err);
+          });
+
+          const mensagemUnica = listaDeErros.join('; ');
+          this.alertService.error(mensagemUnica);
+        }
+      },
+      error: (err) => {
+        this.alertService.error('Falha ao excluir o documento, tente novamente.');
+      }
+    });
+  }
+
+  confirmLogout(deleteDocument: boolean) {
+    if (deleteDocument) {
+      this.inactiveDocument();
+    }
+
+    const modalEl = this.confirmLogoutModal.nativeElement;
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    modalInstance?.hide();
+
+    this.userAuthService.clearToken();
   }
 
 }

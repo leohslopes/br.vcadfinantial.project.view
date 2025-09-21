@@ -38,6 +38,8 @@ export class Protect implements OnInit, OnDestroy {
   public overwriteFile!: File;
   public overwriteFormData!: FormData;
   public overwriteModal?: bootstrap.Modal;
+  public isLoading: boolean = false;
+
 
   constructor(
     private userAuthService: UserAuthService,
@@ -76,8 +78,11 @@ export class Protect implements OnInit, OnDestroy {
       userId: this.userCurrent?.id?.toString() ?? ''
     }
 
+    this.isLoading = true;
     this.accountService.getByID(command).subscribe({
       next: (response: any) => {
+        this.isLoading = false;
+
         if (response.success && response.data) {
           this.data = response.data;
         } else {
@@ -89,6 +94,7 @@ export class Protect implements OnInit, OnDestroy {
         this.updatePagination();
       },
       error: err => {
+        this.isLoading = false;
         console.log(err);
       }
     });
@@ -105,8 +111,11 @@ export class Protect implements OnInit, OnDestroy {
       userId: this.userCurrent?.id?.toString() ?? ''
     }
 
+    this.isLoading = true;
     this.accountService.get(command).subscribe({
       next: (response: any) => {
+        this.isLoading = false;
+
         if (response.success && response.data) {
           this.data = response.data;
         } else {
@@ -118,6 +127,7 @@ export class Protect implements OnInit, OnDestroy {
         this.updatePagination();
       },
       error: err => {
+        this.isLoading = false;
         console.log(err);
       }
     });
@@ -191,8 +201,12 @@ export class Protect implements OnInit, OnDestroy {
     formData.append('file', file);
     formData.append('userId', this.userCurrent?.id?.toString() ?? '');
 
+    this.isLoading = true;
+
     this.accountService.import(formData).subscribe({
       next: (value: IApiResponse<IResultSetImportArchive>) => {
+        this.isLoading = false;
+
         if (value.success) {
           const base64 = value.data.resultFileContent;
           const blob = this.base64ToBlob(base64, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -226,6 +240,7 @@ export class Protect implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
+        this.isLoading = false;
         if (err.status === 409) {
           const errosObj = err?.error?.errors ?? {};
           const listaDeErros: string[] = Object.values(errosObj).map(err => {
@@ -305,6 +320,7 @@ export class Protect implements OnInit, OnDestroy {
   }
 
   confirmOverwrite() {
+    this.isLoading = true;
     this.accountService.import(this.overwriteFormData, true).subscribe({
       next: (value) => {
         this.closeOverwriteModal();
@@ -323,10 +339,11 @@ export class Protect implements OnInit, OnDestroy {
         } else {
           this.alertService.warning('Existe(m) crítica(s) na planilha de retorno.');
         }
-
+        this.isLoading = false;
         this.getAll();
       },
       error: () => {
+        this.isLoading = false;
         this.closeOverwriteModal();
         this.alertService.error('Erro ao sobrescrever o arquivo. Tente novamente.');
       }

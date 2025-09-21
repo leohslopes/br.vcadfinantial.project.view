@@ -15,8 +15,10 @@ export class ReportService {
   public url: string = 'http://localhost:5190/api/v1/ReportLog';
 
   download(command: IDownloadReportLogRequestModel) {
-    const params = new HttpParams().set('MonthKey', command.monthKey || '')
+    const params = new HttpParams()
+      .set('MonthKey', command.monthKey || '')
+      .set('UserId', command.userId);
 
-    return this.httpclient.get<IApiResponse<string>>(`${this.url}/filter-report`, { params});
+    return this.httpclient.get<IApiResponse<string>>(`${this.url}/filter-report`, { params });
   }
 }

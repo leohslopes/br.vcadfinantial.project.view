@@ -67,10 +67,7 @@ export class Dashboard implements OnInit {
   ngOnInit(): void {
     this.userAuthService.isLoggedIn().subscribe(__isLoged => (this.isLoged = __isLoged));
     this.userCurrent = this.userAuthService.getUser();
-
-    // Teste com dados estáticos - descomente para testar se gráficos funcionam
-    // this.loadStaticTestData();
-
+   
     // Dados dinâmicos
     this.getAccounts();
     this.getBalances();
@@ -130,7 +127,8 @@ export class Dashboard implements OnInit {
   }
 
   private getAccounts() {
-    this.dashboardService.getAccounts().subscribe({
+    var id: any = this.userCurrent?.id;
+    this.dashboardService.getAccounts(id).subscribe({
       next: (response: IAccountMinMaxInfoAgreggate[]) => {
         if (response && response.length) {
           const labels = response.map(x => `Conta ${x.accountKey}`);
@@ -174,7 +172,8 @@ export class Dashboard implements OnInit {
   }
 
   private getBalances() {
-    this.dashboardService.getBalances().subscribe({
+    var id: any = this.userCurrent?.id;
+    this.dashboardService.getBalances(id).subscribe({
       next: (response: IAccountBalanceCategoryInfoAgreggate[]) => {
         if (response && response.length) {
           const labels = response.map(x => x.category);
@@ -196,29 +195,5 @@ export class Dashboard implements OnInit {
       },
       error: (err) => console.error('Erro gráfico pizza:', err)
     });
-  }
-
-  // Método para testar dados estáticos - opcional
-  private loadStaticTestData() {
-    this.barChartData = {
-      labels: ['Conta 9000000001', 'Conta 8000000002'],
-      datasets: [
-        {
-          label: 'Valor',
-          data: [1400000000, -150000000],
-          backgroundColor: ['#50C1BF', '#F0625F']
-        }
-      ]
-    };
-
-    this.pieChartData = {
-      labels: ['Maior que Zero', 'Igual a Zero', 'Menor que Zero'],
-      datasets: [
-        {
-          data: [10, 90, 3],
-          backgroundColor: ['#4CAF50', '#FFC107', '#F44336']
-        }
-      ]
-    };
   }
 }

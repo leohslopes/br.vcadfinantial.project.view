@@ -9,3 +9,4 @@ export interface IAccountBalanceCategoryInfoAgreggate {
     count: number,
     percentage: number,
 }
+

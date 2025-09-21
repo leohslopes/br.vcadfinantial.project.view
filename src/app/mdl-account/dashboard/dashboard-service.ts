@@ -14,8 +14,8 @@ export class DashboardService {
 
     public url: string = 'http://localhost:5190/api/v1/Dashboard';
 
-    getAccounts() {
-        return this.httpclient.get<IApiResponse<IAccountMinMaxInfoAgreggate[]>>(`${this.url}/GetAccount`).pipe(
+    getAccounts(userId: number) {
+        return this.httpclient.get<IApiResponse<IAccountMinMaxInfoAgreggate[]>>(`${this.url}/GetAccount/${userId}`).pipe(
             map(response => {
                 if (!response.success) {
                     console.error('Erros da API:', response.errors);
@@ -25,8 +25,8 @@ export class DashboardService {
         );
     }
 
-    getBalances() {
-        return this.httpclient.get<IApiResponse<IAccountBalanceCategoryInfoAgreggate[]>>(`${this.url}/GetBalance`).pipe(
+    getBalances(userId: number) {
+        return this.httpclient.get<IApiResponse<IAccountBalanceCategoryInfoAgreggate[]>>(`${this.url}/GetBalance/${userId}`).pipe(
             map(response => {
                 if (!response.success) {
                     console.error('Erros da API:', response.errors);
